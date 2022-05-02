@@ -1,0 +1,39 @@
+﻿@page "/data"
+@inject BlazorApp3.Data.DatabaseService dataBaseService
+@using BlazorApp3.Data
+
+<h1>Hola</h1>
+ <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Numero</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var _database in database)
+                {
+                    <tr>
+                        <td>@_database.Id</td>
+                        <td>@_database.Numero</td>
+                    </tr>
+                }
+           
+        </tbody>
+    </table>
+@code {
+    private Database[] database;
+    private int length;
+
+    protected override async Task OnInitializedAsync()
+    {   
+        
+        
+        database = new Database[dataBaseService._data.Length];
+        for(int i =0; i<database.Length;i++)
+        {
+            database[i] = new Database();
+        }
+        database = await dataBaseService.GetDataAsync();
+    }    
+}
